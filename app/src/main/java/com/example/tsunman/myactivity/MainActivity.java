@@ -2,9 +2,10 @@ package com.example.tsunman.myactivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -20,6 +21,11 @@ public class MainActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 1;
 
     private Button mLogoutButton;
+
+    // activity list
+    private RecyclerView mRecyclerView;
+    private ActivityAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     // authentication
     private FirebaseAuth mFirebaseAuth;
@@ -87,6 +93,14 @@ public class MainActivity extends AppCompatActivity {
                 AuthUI.getInstance().signOut(MainActivity.this);
             }
         });
+
+        // initialize the activity list
+        mRecyclerView = (RecyclerView) findViewById(R.id.activity_list);
+        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new ActivityAdapter();
+        mRecyclerView.setAdapter(mAdapter);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
     private void onSignedOut() {
