@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
     defaultConfig {
         applicationId "com.example.tsunman.myactivity"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
         versionName "1.0"
@@ -26,4 +26,15 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:25.1.0'
     testCompile 'junit:junit:4.12'
+
+    // Firebase database
+    compile 'com.google.firebase:firebase-database:10.0.1'
+    // Firebase storage
+    compile 'com.google.firebase:firebase-storage:10.0.1'
+    // Firebase authentication, FirebaseUI
+    compile 'com.google.firebase:firebase-auth:10.0.0'
+    compile 'com.firebaseui:firebase-ui-auth:1.0.1'
 }
+
+// Google services
+apply plugin: 'com.google.gms.google-services'
