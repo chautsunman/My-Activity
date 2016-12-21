@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">My Activity</string>
+
+    <string name="signed_in">Signed in</string>
+    <string name="sign_in_cancelled">Sign in cancelled</string>
+    <string name="sign_in_no_network">No network connection</string>
+    <string name="signed_out">Signed out</string>
 </resources>
