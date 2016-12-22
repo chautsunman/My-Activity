@@ -1,21 +1,21 @@
 package com.example.tsunman.myactivity;
 
 public class MyActivity {
-    private String activityName;
+    private String name;
 
     public MyActivity() {
 
     }
 
-    public MyActivity(String activityName) {
-        this.activityName = activityName;
+    public MyActivity(String name) {
+        this.name = name;
     }
 
-    public String getActivityName() {
-        return activityName;
+    public String getName() {
+        return name;
     }
 
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

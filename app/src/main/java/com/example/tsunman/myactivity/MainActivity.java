@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -14,10 +15,17 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ui.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
+
     private static final int RC_SIGN_IN = 1;
 
     private Button mLogoutButton;
@@ -30,6 +38,11 @@ public class MainActivity extends AppCompatActivity {
     // authentication
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+
+    // database
+    private FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mActivitiesDatabaseReference;
+    private ChildEventListener mActivitiesEventListener = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (user != null) {
                     // user is signed in
-                    onSignedIn();
+                    onSignedIn(user);
                 } else {
                     // user is not signed in
                     onSignedOut();
@@ -85,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void onSignedIn() {
+    private void onSignedIn(FirebaseUser user) {
         mLogoutButton = (Button) findViewById(R.id.logout_button);
         mLogoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // initialize the activity list
+        initializeList();
+
+        // initialize database
+        initializeDatabase(user.getUid());
+
+        // add the activities event listener
+        addActivitiesListener();
+    }
+
+    private void initializeList() {
         mRecyclerView = (RecyclerView) findViewById(R.id.activity_list);
         mRecyclerView.setHasFixedSize(true);
         mAdapter = new ActivityAdapter();
@@ -103,8 +126,57 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mLayoutManager);
     }
 
+    private void initializeDatabase(String uid) {
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mActivitiesDatabaseReference = mFirebaseDatabase.getReference().child("activities").child(uid);
+    }
+
+    private void addActivitiesListener() {
+        if (mActivitiesEventListener == null) {
+            mActivitiesEventListener = new ChildEventListener() {
+                @Override
+                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    MyActivity activity = dataSnapshot.getValue(MyActivity.class);
+                    mAdapter.add(activity);
+                }
+
+                @Override
+                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            };
+
+            mActivitiesDatabaseReference.addChildEventListener(mActivitiesEventListener);
+        }
+    }
+
     private void onSignedOut() {
         showToast(R.string.signed_out);
+
+        removeActivitiesListener();
+    }
+
+    private void removeActivitiesListener() {
+        if (mActivitiesEventListener != null) {
+            mActivitiesDatabaseReference.removeEventListener(mActivitiesEventListener);
+
+            mActivitiesEventListener = null;
+        }
     }
 
     @Override

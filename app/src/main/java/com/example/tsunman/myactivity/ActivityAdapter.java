@@ -41,7 +41,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     // replace the contents of a view
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.getActivityNameTextView().setText(activities.get(position).getActivityName());
+        holder.getActivityNameTextView().setText(activities.get(position).getName());
     }
 
     // append an activity to the array list
