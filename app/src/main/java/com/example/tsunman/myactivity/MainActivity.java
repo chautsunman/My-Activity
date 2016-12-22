@@ -175,7 +175,9 @@ public class MainActivity extends AppCompatActivity {
     private void onSignedOut() {
         removeActivitiesListener();
 
-        mAdapter.clear();
+        if (mAdapter != null) {
+            mAdapter.clear();
+        }
     }
 
     private void removeActivitiesListener() {
