@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -99,14 +102,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onSignedIn(FirebaseUser user) {
-        mLogoutButton = (Button) findViewById(R.id.logout_button);
-        mLogoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AuthUI.getInstance().signOut(MainActivity.this);
-            }
-        });
-
         // initialize the activity list
         initializeList();
 
@@ -166,9 +161,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onSignedOut() {
-        showToast(R.string.signed_out);
-
         removeActivitiesListener();
+
+        mAdapter.clear();
     }
 
     private void removeActivitiesListener() {
@@ -193,6 +188,25 @@ public class MainActivity extends AppCompatActivity {
 
         // remove the authentication state change listener
         mFirebaseAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sign_out_menu:
+                AuthUI.getInstance().signOut(this);
+
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void showToast(int stringRes) {
