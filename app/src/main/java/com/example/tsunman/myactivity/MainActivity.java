@@ -2,16 +2,15 @@ package com.example.tsunman.myactivity;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
@@ -31,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 1;
 
-    private Button mLogoutButton;
+    private FloatingActionButton createActivityFab;
 
     // activity list
     private RecyclerView mRecyclerView;
@@ -110,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
         // add the activities event listener
         addActivitiesListener();
+
+        // initialize the create activity fab
+        initializeFab();
     }
 
     private void initializeList() {
@@ -158,6 +160,16 @@ public class MainActivity extends AppCompatActivity {
 
             mActivitiesDatabaseReference.addChildEventListener(mActivitiesEventListener);
         }
+    }
+
+    private void initializeFab() {
+        createActivityFab = (FloatingActionButton) findViewById(R.id.create_activity);
+        createActivityFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO: open another activity to create a new activity
+            }
+        });
     }
 
     private void onSignedOut() {
