@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeFab() {
-        createActivityFab = (FloatingActionButton) findViewById(R.id.create_activity);
+        createActivityFab = (FloatingActionButton) findViewById(R.id.create_activity_fab);
         createActivityFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
