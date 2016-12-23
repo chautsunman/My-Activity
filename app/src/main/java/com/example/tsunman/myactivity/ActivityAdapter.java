@@ -12,16 +12,22 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     private ArrayList<MyActivity> activities = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView activityNameTextView;
+        private TextView nameTextView;
+        private TextView timeTextView;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            activityNameTextView = (TextView) itemView.findViewById(R.id.activity_name);
+            nameTextView = (TextView) itemView.findViewById(R.id.activity_item_name);
+            timeTextView = (TextView) itemView.findViewById(R.id.activity_item_time);
         }
 
-        public TextView getActivityNameTextView() {
-            return activityNameTextView;
+        public TextView getNameTextView() {
+            return nameTextView;
+        }
+
+        public TextView getTimeTextView() {
+            return timeTextView;
         }
     }
 
@@ -41,7 +47,8 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     // replace the contents of a view
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.getActivityNameTextView().setText(activities.get(position).getName());
+        holder.getNameTextView().setText(activities.get(position).getName());
+        holder.getTimeTextView().setText(activities.get(position).getTimeString());
     }
 
     // append an activity to the array list

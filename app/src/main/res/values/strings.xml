@@ -8,4 +8,5 @@
     <string name="create_activity_name_hint">Activity Name</string>
     <string name="create_activity_button">Create</string>
     <string name="cancel">Cancel</string>
+    <string name="label_create_activity">Create Activity</string>
 </resources>

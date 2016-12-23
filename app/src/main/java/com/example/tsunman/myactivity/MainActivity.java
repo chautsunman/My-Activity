@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity {
         addActivitiesListener();
 
         // initialize the create activity fab
-        initializeFab();
+        initializeFab(user.getUid());
     }
 
     private void initializeList() {
@@ -162,12 +162,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeFab() {
+    private void initializeFab(final String uid) {
         createActivityFab = (FloatingActionButton) findViewById(R.id.create_activity_fab);
         createActivityFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CreateActivity.class);
+                intent.putExtra("uid", uid);
                 startActivity(intent);
             }
         });
