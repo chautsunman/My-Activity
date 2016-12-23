@@ -167,7 +167,8 @@ public class MainActivity extends AppCompatActivity {
         createActivityFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: open another activity to create a new activity
+                Intent intent = new Intent(MainActivity.this, CreateActivity.class);
+                startActivity(intent);
             }
         });
     }
