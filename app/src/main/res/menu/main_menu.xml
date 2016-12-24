@@ -3,4 +3,8 @@
     <item
         android:id="@+id/sign_out_menu"
         android:title="Sign Out" />
+
+    <item
+        android:id="@+id/master_detail_menu"
+        android:title="Master/Detail Flow" />
 </menu>

@@ -220,6 +220,11 @@ public class MainActivity extends AppCompatActivity {
                 AuthUI.getInstance().signOut(this);
 
                 return true;
+            case R.id.master_detail_menu:
+                Intent intent = new Intent(this, ActivityListActivity.class);
+                startActivity(intent);
+
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
