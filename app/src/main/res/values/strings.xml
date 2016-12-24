@@ -9,4 +9,6 @@
     <string name="create_activity_button">Create</string>
     <string name="cancel">Cancel</string>
     <string name="label_create_activity">Create Activity</string>
+    <string name="title_activity_list">Activities</string>
+    <string name="title_activity_detail">Activity Detail</string>
 </resources>
