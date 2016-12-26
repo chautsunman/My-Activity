@@ -15,9 +15,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 
-import com.example.tsunman.myactivity.dummy.DummyContent;
+import com.example.tsunman.myactivity.ActivityItem.ActivityItem;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * An activity representing a list of Activities. This activity
@@ -28,6 +28,7 @@ import java.util.List;
  * item details side-by-side using two vertical panes.
  */
 public class ActivityListActivity extends AppCompatActivity {
+    private ActivityAdapter mAdapter;
 
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
@@ -67,37 +68,46 @@ public class ActivityListActivity extends AppCompatActivity {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(DummyContent.ITEMS));
+        mAdapter = new ActivityAdapter();
+
+        recyclerView.setAdapter(mAdapter);
+
+        mAdapter.add(new ActivityItem("name", System.currentTimeMillis()));
     }
 
-    public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+    public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
+        private ArrayList<ActivityItem> activities = new ArrayList<>();
 
-        private final List<DummyContent.DummyItem> mValues;
+        public ActivityAdapter() {
 
-        public SimpleItemRecyclerViewAdapter(List<DummyContent.DummyItem> items) {
-            mValues = items;
         }
 
+        // create new views
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.activity_list_content, parent, false);
-            return new ViewHolder(view);
+            // create a new item
+            View activity = LayoutInflater.from(parent.getContext()).inflate(R.layout.activity_item, parent, false);
+
+            return new ViewHolder(activity);
         }
 
+        // replace the contents of a view
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mItem = mValues.get(position);
-            holder.mIdView.setText(mValues.get(position).id);
-            holder.mContentView.setText(mValues.get(position).content);
+            // set the view
+            holder.getNameTextView().setText(activities.get(position).getName());
+            holder.getTimeTextView().setText(activities.get(position).getTimeString());
 
+            // set the item
+            holder.setItem(activities.get(position));
+
+            // set the on-click listener for each item
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
                         Bundle arguments = new Bundle();
-                        arguments.putString(ActivityDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        arguments.putString(ActivityDetailFragment.ARG_ITEM_NAME, holder.getItemName());
                         ActivityDetailFragment fragment = new ActivityDetailFragment();
                         fragment.setArguments(arguments);
                         getSupportFragmentManager().beginTransaction()
@@ -106,7 +116,7 @@ public class ActivityListActivity extends AppCompatActivity {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ActivityDetailActivity.class);
-                        intent.putExtra(ActivityDetailFragment.ARG_ITEM_ID, holder.mItem.id);
+                        intent.putExtra(ActivityDetailFragment.ARG_ITEM_NAME, holder.getItemName());
 
                         context.startActivity(intent);
                     }
@@ -114,27 +124,60 @@ public class ActivityListActivity extends AppCompatActivity {
             });
         }
 
+        // append an activity to the array list
+        public void add(ActivityItem activity) {
+            activities.add(activity);
+
+            notifyDataSetChanged();
+        }
+
+        // remove all activities from the array list
+        public void clear() {
+            activities.clear();
+
+            notifyDataSetChanged();
+        }
+
         @Override
         public int getItemCount() {
-            return mValues.size();
+            return activities.size();
         }
+
 
         public class ViewHolder extends RecyclerView.ViewHolder {
             public final View mView;
-            public final TextView mIdView;
-            public final TextView mContentView;
-            public DummyContent.DummyItem mItem;
+            private final TextView nameTextView;
+            private final TextView timeTextView;
 
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                mIdView = (TextView) view.findViewById(R.id.id);
-                mContentView = (TextView) view.findViewById(R.id.content);
+            private ActivityItem item;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+
+                mView = itemView;
+
+                nameTextView = (TextView) itemView.findViewById(R.id.activity_item_name);
+                timeTextView = (TextView) itemView.findViewById(R.id.activity_item_time);
             }
 
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+            public TextView getNameTextView() {
+                return nameTextView;
+            }
+
+            public TextView getTimeTextView() {
+                return timeTextView;
+            }
+
+            public ActivityItem getItem() {
+                return item;
+            }
+
+            public String getItemName() {
+                return item.getName();
+            }
+
+            public void setItem(ActivityItem item) {
+                this.item = item;
             }
         }
     }
