@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.tsunman.myactivity.ActivityItem.ActivityItem;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,7 +54,7 @@ public class CreateActivity extends AppCompatActivity {
         String name = nameEditText.getText().toString();
         long time = System.currentTimeMillis();
 
-        MyActivity activity = new MyActivity(name, time);
+        ActivityItem activity = new ActivityItem(name, time);
 
         // add the new activity to the database
         mActivitiesDatabaseReference.push().setValue(activity);

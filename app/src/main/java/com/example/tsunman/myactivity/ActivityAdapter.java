@@ -6,10 +6,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.tsunman.myactivity.ActivityItem.ActivityItem;
+
 import java.util.ArrayList;
 
 public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHolder> {
-    private ArrayList<MyActivity> activities = new ArrayList<>();
+    private ArrayList<ActivityItem> activities = new ArrayList<>();
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
@@ -52,7 +54,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.ViewHo
     }
 
     // append an activity to the array list
-    public void add(MyActivity activity) {
+    public void add(ActivityItem activity) {
         activities.add(activity);
 
         notifyDataSetChanged();

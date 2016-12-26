@@ -1,17 +1,17 @@
-package com.example.tsunman.myactivity;
+package com.example.tsunman.myactivity.ActivityItem;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class MyActivity {
+public class ActivityItem {
     private String name;
     private long time;
 
-    public MyActivity() {
+    public ActivityItem() {
 
     }
 
-    public MyActivity(String name, long time) {
+    public ActivityItem(String name, long time) {
         this.name = name;
         this.time = time;
     }
@@ -34,5 +34,10 @@ public class MyActivity {
 
     public void setTime(long time) {
         this.time = time;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

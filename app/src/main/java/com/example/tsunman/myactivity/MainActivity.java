@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.tsunman.myactivity.ActivityItem.ActivityItem;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.ui.ResultCodes;
 import com.google.firebase.auth.FirebaseAuth;
@@ -133,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
             mActivitiesEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    MyActivity activity = dataSnapshot.getValue(MyActivity.class);
+                    ActivityItem activity = dataSnapshot.getValue(ActivityItem.class);
                     mAdapter.add(activity);
                 }
 
