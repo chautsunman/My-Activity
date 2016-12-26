@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, CreateActivity.class);
-                intent.putExtra("uid", uid);
+                intent.putExtra(CreateActivity.ARG_UID, uid);
                 startActivity(intent);
             }
         });

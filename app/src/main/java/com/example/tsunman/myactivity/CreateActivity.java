@@ -11,6 +11,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class CreateActivity extends AppCompatActivity {
+    public static final String ARG_UID = "uid";
+
     private Button createButton;
     private TextInputEditText nameEditText;
 
@@ -23,21 +25,23 @@ public class CreateActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
 
-        String uid = getIntent().getStringExtra("uid");
+        if (getIntent().hasExtra(ARG_UID)) {
+            String uid = getIntent().getStringExtra(ARG_UID);
 
-        // initialize database
-        initializeDatabase(uid);
+            // initialize database
+            initializeDatabase(uid);
 
-        // initialize the view members
-        initializeViewMembers();
+            // initialize the view members
+            initializeViewMembers();
 
-        // set the create button on-click listener
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                createActivity();
-            }
-        });
+            // set the create button on-click listener
+            createButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    createActivity();
+                }
+            });
+        }
     }
 
     private void initializeDatabase(String uid) {
